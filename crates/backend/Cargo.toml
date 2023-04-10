@@ -1,0 +1,59 @@
+[package]
+name = "{{project-name}}d"
+version = "0.1.0"
+edition = "2021"
+default-run = "{{project-name}}d"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+futures = "0.3"
+
+tokio = {version="1",features=["full"]}
+tokio-stream = "0.1"
+tokio-util = { version="0.7", features = ["full"] }
+tokio-rustls = "0.24"
+
+hyper = { version = "0.14", features = ["server", "http1", "http2"] }
+
+tower = { version = "0.4", features = ["util", "make"] }
+tower-http = { version = "0.4", features = ["fs", "trace", "cors"]}
+
+axum = { version = "0.6", features = ["http2", "ws"] }
+axum-server = { version = "0.4", features = ["tls-rustls"] }
+axum-sessions = "0.5"
+
+jemallocator = "0.5"
+exitcode = "1"
+ctrlc = "3"
+human-panic = "1"
+clap = { version = "4", features = ["derive"] }
+
+time = { version = "0.3", features = ["serde", "macros"] }
+rand = {version="0.8", features=["min_const_gen"]}
+
+anyhow = "1"
+thiserror = {workspace = true}
+
+serde ={ workspace = true }
+serde_json = { workspace = true }
+serde_urlencoded = "0.7"
+
+sqlx = { version = "0.6", features = [ "postgres", "time", "runtime-tokio-rustls", "json"]}
+dotenvy = { workspace = true }
+
+rustls = "0.21"
+rustls-pemfile = "1.0.2"
+
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[build-dependencies]
+clap_mangen = "0.2.6"
+sqlx = { version = "0.6", features = [ "postgres", "time", "runtime-tokio-rustls"]}
+clap = { version = "4", features = ["derive"] }
+
+[[bin]]
+name = "{{project-name}}d"
+test = false
+bench = false

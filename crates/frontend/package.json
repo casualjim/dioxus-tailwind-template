@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "> a template for starting a dioxus project to be used with [dioxus-cli](https://github.com/DioxusLabs/cli)",
+  "main": "src/tailwind.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.9",
+    "autoprefixer": "^10.4.14",
+    "daisyui": "^2.51.5",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1"
+  }
+}

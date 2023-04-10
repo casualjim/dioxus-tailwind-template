@@ -1,0 +1,3 @@
+[alias]
+frontend="run --bin frontend"
+backend="run --bin backend"

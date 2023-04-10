@@ -1,0 +1,8 @@
+/target
+/Cargo.lock
+/certs
+/target-trunk
+/client_secret*.json
+.DS_Store
+/.idea
+/.env

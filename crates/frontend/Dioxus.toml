@@ -1,0 +1,50 @@
+[application]
+
+# App (Project) Name
+name = "{{project-name}}-frontend"
+
+# Dioxus App Default Platform
+# desktop, web, mobile, ssr
+default_platform = "web"
+
+# `build` & `serve` dist path
+out_dir = "dist"
+
+# resource (public) file folder
+asset_dir = "public"
+
+[application.tools]
+tailwindcss = { input = "src/tailwind.input.css", config = "src/tailwind.config.js" }
+
+[web.app]
+
+# HTML title tag content
+title = "dioxus | ⛺"
+
+[web.watcher]
+
+# when watcher trigger, regenerate the `index.html`
+reload_html = true
+
+# which files or dirs will be watcher monitoring
+watch_path = ["src", "public"]
+
+# include `assets` in web platform
+[web.resource]
+
+# CSS style file
+style = [
+]
+
+# Javascript code file
+script = [
+]
+
+[web.resource.dev]
+
+# Javascript code file
+# serve: [dev-server] only
+script = []
+
+[[web.proxy]]
+backend = "https://localhost:8443/api/"

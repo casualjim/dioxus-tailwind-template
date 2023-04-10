@@ -1,0 +1,19 @@
+reorder_imports         = true
+imports_granularity     = "Item"
+group_imports           = "StdExternalCrate"
+# where_single_line       = true
+trailing_comma          = "Vertical"
+# overflow_delimited_expr = true
+# wrap_comments           = true
+comment_width           = 120
+max_width               = 100
+inline_attribute_width  = 80
+tab_spaces              = 2
+
+merge_derives           = false
+
+# pre-unstable
+
+chain_width             = 100
+
+
