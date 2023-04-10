@@ -13,7 +13,7 @@ use axum_server::Handle;
 use axum_sessions::async_session::CookieStore;
 use axum_sessions::{SameSite, SessionLayer};
 
-use clap::{Parser, ValueEnum};
+use clap::Parser;
 
 use hyper::Method;
 use listenfd::ListenFd;
@@ -24,7 +24,6 @@ use rustls_pemfile::{certs, pkcs8_private_keys};
 use tower_http::cors::{Any, CorsLayer};
 use tower_http::services::{ServeDir, ServeFile};
 
-use std::fmt::Display;
 use std::fs::File;
 use std::io::BufReader;
 use std::net::{Ipv6Addr, SocketAddr, TcpListener};
@@ -33,13 +32,12 @@ use std::sync::Arc;
 use std::time::Duration;
 use tokio::time::sleep;
 use tower_http::trace::TraceLayer;
-use tracing::{debug, error, info, warn};
+use tracing::{debug, info, warn};
 
 use time::ext::NumericalStdDuration;
-use tokio_stream::StreamExt;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
-use {{project-name}}d::AppState;
+use {{crate_name}}d::AppState;
 
 // We use jemalloc as it produces better performance.
 #[global_allocator]
@@ -102,8 +100,7 @@ async fn main() -> Result<()> {
     graceful_shutdown(hh).await;
   });
 
-  let app_state = AppState::new(database_url)
-    .await?
+  let app_state = AppState::new(database_url).await?;
   sqlx::migrate!().run(app_state.pool()).await?;
 
   // this will enable us to keep application running during recompile: systemfd --no-pid -s http::8080 -s https::8443 -- cargo watch -x run
@@ -240,7 +237,7 @@ async fn make_app_async(
   let store = CookieStore::new();
   let secret = rand::thread_rng().gen::<[u8; 128]>(); // MUST be at least 64 bytes!
   let session_layer = SessionLayer::new(store, &secret)
-    .with_cookie_name("{{project-name}}_session")
+    .with_cookie_name("{{crate_name}}_session")
     .with_same_site_policy(SameSite::Lax)
     .with_secure(is_secure);
 

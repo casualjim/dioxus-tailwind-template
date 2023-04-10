@@ -1,13 +1,13 @@
-use std::process::Command;
+use std::{path::PathBuf, process::Command};
 
 #[cfg(windows)]
-pub const SYSTEMFD: &str = "systemfd.cmd";
+pub const SYSTEMFD: &str = "systemfd.exe";
 
 #[cfg(not(windows))]
 pub const SYSTEMFD: &str = "systemfd";
 
 pub fn main() {
-  let dir = env!("CARGO_MANIFEST_DIR");
+  let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("crates/backend");
 
   Command::new(SYSTEMFD)
     .current_dir(dir)
@@ -21,7 +21,7 @@ pub fn main() {
       "cargo",
       "watch",
       "-x",
-      "run -- --tls-mode=key-pair --tls-key ../../certs/server.key --tls-cert ../../certs/server.crt --static-dir ../frontend/dist/ --https-port 8443 --http-port 8080"
+      "run -- --tls-key ../../certs/server.key --tls-cert ../../certs/server.crt --static-dir ../frontend/dist/ --https-port 8443 --http-port 8080"
     ])
     .spawn()
     .unwrap()

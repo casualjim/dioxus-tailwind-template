@@ -48,6 +48,8 @@ rustls-pemfile = "1.0.2"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
+listenfd = "1"
+
 [build-dependencies]
 clap_mangen = "0.2.6"
 sqlx = { version = "0.6", features = [ "postgres", "time", "runtime-tokio-rustls"]}

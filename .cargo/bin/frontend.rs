@@ -1,7 +1,7 @@
 use std::{path::PathBuf, process::Command};
 
 #[cfg(windows)]
-pub const CARGO: &str = "cargo.cmd";
+pub const CARGO: &str = "cargo.exe";
 
 #[cfg(not(windows))]
 pub const CARGO: &str = "cargo";
@@ -11,6 +11,9 @@ pub fn main() {
 
   Command::new(CARGO)
     .current_dir(path)
+    #[cfg(windows)]
+    .args(["watch", "-s", "dioxus.exe build"])
+    #[cfg(not(windows))]
     .args(["watch", "-s", "dioxus build"])
     .spawn()
     .unwrap()
