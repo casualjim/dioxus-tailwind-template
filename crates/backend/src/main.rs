@@ -80,7 +80,7 @@ async fn main() -> Result<()> {
 
   tracing_subscriber::registry()
     .with(tracing_subscriber::EnvFilter::new(
-      std::env::var("RUST_LOG").unwrap_or_else(|_| "franklin=debug,franklind=debug".into()),
+      std::env::var("RUST_LOG").unwrap_or_else(|_| "{{crate_name}}=debug,{{crate_name}}d=debug".into()),
     ))
     .with(tracing_subscriber::fmt::layer())
     .init();
@@ -155,22 +155,20 @@ async fn serve_keypair(
       .expect("bad certificate/key");
     config.alpn_protocols = vec![b"h2".to_vec(), b"http/1.1".to_vec()];
 
-    if let Some(l) = listener {
+    let server = if let Some(l) = listener {
       debug!("https (listenfd) listening on {}", l.local_addr().unwrap());
       axum_server::from_tcp_rustls(l, RustlsConfig::from_config(Arc::new(config)))
-        .handle(handle)
-        .serve(make_app_async(app_state, &args.static_dir, true).await)
-        .await
-        .map_err(|e| anyhow!("{:?}", e))?;
     } else {
       let addr = SocketAddr::from((Ipv6Addr::UNSPECIFIED, args.https_port));
       debug!("https listening on {}", addr);
       axum_server::bind_rustls(addr, RustlsConfig::from_config(Arc::new(config)))
-        .handle(handle)
-        .serve(make_app_async(app_state, &args.static_dir, true).await)
-        .await
-        .map_err(|e| anyhow!("{:?}", e))?;
-    }
+    };
+
+    server
+      .handle(handle)
+      .serve(make_app_async(app_state, &args.static_dir, true).await)
+      .await
+      .map_err(|e| anyhow!("{:?}", e))?;
     Ok(())
   } else {
     Err(anyhow!("both tls-key and tls-cert are required"))
@@ -229,7 +227,7 @@ async fn redirect_http_to_https(
 }
 
 async fn make_app_async(
-  app_state: AppState,
+  _app_state: AppState,
   static_dir: &PathBuf,
   is_secure: bool,
 ) -> IntoMakeServiceWithConnectInfo<Router<(), Body>, SocketAddr> {

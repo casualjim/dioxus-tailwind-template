@@ -9,6 +9,7 @@ edition = "2021"
 
 [workspace]
 members = ["crates/frontend", "crates/backend"]
+resolver = "2"
 
 [workspace.dependencies]
 dioxus = "0.3.2"
